@@ -1,0 +1,28 @@
+.photos
+  - @photos.each do |photo|
+    %section{class:"insta_image"}
+      = image_tag photo.image.url(:medium), class: "instagram_image"
+      %br
+      %span.caption
+        = photo.caption
+      %br
+      %span.tags
+        - photo.tags.each do |tag|
+          =link_to tag.text,tag
+      %br
+      - if current_user
+        = render 'like_button', {photo: photo}
+      = "Likes: #{photo.likes.count}"
+      %br
+      Uploaded by:
+      %span.user
+        = photo.user.email
+      %br
+      = link_to 'Buy Print', new_charge_path
+
+      %br
+      = link_to 'Edit', edit_photo_path(photo)
+      %br
+      = link_to 'Delete', photo_path(photo),
+                        method: :delete, data: { confirm: 'Are you sure?' }
+      %br
